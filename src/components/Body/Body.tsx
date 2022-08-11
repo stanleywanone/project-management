@@ -5,6 +5,10 @@ import { NewCard } from "../../commons/NewCard"
 
 export const Body = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [form, setForm] = useState({})
+  const onSubmit = () => {
+    console.log("form, ", form)
+  }
   return (
     <>
       <CardSection name="Backlog" setIsOpen={setIsOpen}>
@@ -27,7 +31,12 @@ export const Body = () => {
         <Card title="test1" />
         <Card title="test2" />
       </CardSection>
-      <NewCard isOpen={isOpen} setIsOpen={setIsOpen} />
+      <NewCard
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        setForm={setForm}
+        onSubmit={onSubmit}
+      />
     </>
   )
 }

@@ -6,15 +6,16 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Button,
 } from "@chakra-ui/react"
 import { Dispatch, SetStateAction } from "react"
+import { CardSectionName } from "../../boundary/Card"
+import { Select } from "../Select"
 
 const TitleInput = styled.input`
   border: 1px solid black;
   margin-bottom: 15px;
   border-radius: 5px;
+  padding: 5px;
 `
 
 const DescriptionTextArea = styled.textarea`
@@ -22,6 +23,8 @@ const DescriptionTextArea = styled.textarea`
   width: 100%;
   height: 200px;
   border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
 `
 
 const CancelButton = styled.button`
@@ -29,10 +32,7 @@ const CancelButton = styled.button`
   border-radius: 5px;
   background-color: #eb5252;
   color: white;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 5px;
 `
 
 const SumbitButton = styled.button`
@@ -40,18 +40,22 @@ const SumbitButton = styled.button`
   border-radius: 5px;
   background-color: var(--secondary-color);
   color: white;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 5px;
   margin-left: 10px;
 `
 export interface NewCardProps {
   isOpen: boolean
   setIsOpen: Dispatch<SetStateAction<boolean>>
+  onSubmit: () => void
+  setForm: Dispatch<SetStateAction<any>>
 }
 
-export const NewCard = ({ isOpen, setIsOpen }: NewCardProps) => {
+export const NewCard = ({
+  isOpen,
+  setIsOpen,
+  onSubmit,
+  setForm,
+}: NewCardProps) => {
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <ModalOverlay />
@@ -60,15 +64,30 @@ export const NewCard = ({ isOpen, setIsOpen }: NewCardProps) => {
           New Card
         </ModalHeader>
         <h1>Add Title</h1>
-        <TitleInput />
+        <TitleInput
+          onChange={(e) =>
+            setForm((pre: any) => ({ ...pre, title: e.target.value }))
+          }
+        />
         <ModalBody p={0}>
           <h1>Description</h1>
-          <DescriptionTextArea />
+          <DescriptionTextArea
+            onChange={(e) =>
+              setForm((pre: any) => ({ ...pre, description: e.target.value }))
+            }
+          />
+          <h1>Progress</h1>
+          <Select
+            options={CardSectionName}
+            onChange={(e) =>
+              setForm((pre: any) => ({ ...pre, progress: e.target.value }))
+            }
+          />
         </ModalBody>
 
         <ModalFooter p={0} my={3}>
           <CancelButton onClick={() => setIsOpen(false)}>Cancel</CancelButton>
-          <SumbitButton>Submit</SumbitButton>
+          <SumbitButton onClick={() => onSubmit()}>Submit</SumbitButton>
         </ModalFooter>
       </ModalContent>
     </Modal>
