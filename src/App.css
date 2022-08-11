@@ -4,7 +4,7 @@
   grid-template:
     "header"
     "body";
-  grid-template-rows: 15% 85%;
+  grid-template-rows: 10% 90%;
 }
 
 .header {
@@ -16,4 +16,5 @@
   grid-area: body;
   background-color: var(--secondary-color);
   padding-top: 10px;
+  display: flex;
 }
