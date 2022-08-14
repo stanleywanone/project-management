@@ -22,5 +22,6 @@
   grid-area: body;
   background-color: var(--secondary-color);
   padding-top: 10px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }

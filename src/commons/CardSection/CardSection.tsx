@@ -13,7 +13,6 @@ const Container = styled.div`
 
 const CardSectionName = styled.div`
   display: flex;
-  width: 300px;
   margin-bottom: 10px;
   color: var(--font-color);
   font-weight: bold;
@@ -21,7 +20,6 @@ const CardSectionName = styled.div`
 
 const AddCard = styled.div`
   display: flex;
-  width: 300px;
   color: var(--font-color);
   margin-top: 10px;
   cursor: pointer;
