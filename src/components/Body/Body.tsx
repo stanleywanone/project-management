@@ -1,41 +1,45 @@
-import { useState } from "react"
+import { CardSectionOptions } from "../../boundary/Card"
 import { Card } from "../../commons/Card"
 import { CardSection } from "../../commons/CardSection"
 import { NewCard } from "../../commons/NewCard"
+import { useBody } from "./hooks/useBody"
 
 export const Body = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [form, setForm] = useState({})
-  const onSubmit = () => {
-    console.log("form, ", form)
-  }
+  const {
+    projects,
+    addProject,
+    setAddProjectForm,
+    isOpenAddProject,
+    setIsOpenAddProject,
+  } = useBody()
+
   return (
     <>
-      <CardSection name="Backlog" setIsOpen={setIsOpen}>
-        <Card title="test1" />
-        <Card title="test2" />
-      </CardSection>
-      <CardSection name="To Do" setIsOpen={setIsOpen}>
-        <Card title="test1" />
-        <Card title="test2" />
-      </CardSection>
-      <CardSection name="In Progress" setIsOpen={setIsOpen}>
-        <Card title="test1" />
-        <Card title="test2" />
-      </CardSection>
-      <CardSection name="Paused" setIsOpen={setIsOpen}>
-        <Card title="test1" />
-        <Card title="test2" />
-      </CardSection>
-      <CardSection name="Accepted" setIsOpen={setIsOpen}>
-        <Card title="test1" />
-        <Card title="test2" />
-      </CardSection>
+      {CardSectionOptions.map((cardSection) => {
+        return (
+          <CardSection
+            name={cardSection.label}
+            setIsOpen={setIsOpenAddProject}
+            key={`cardSection.label ${cardSection.label}`}
+          >
+            {projects
+              .filter((p: any) => p.project_progress === cardSection.value)
+              .map((p: any) => {
+                return (
+                  <Card
+                    title={p.project_title}
+                    key={`${p.project_title} title`}
+                  />
+                )
+              })}
+          </CardSection>
+        )
+      })}
       <NewCard
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        setForm={setForm}
-        onSubmit={onSubmit}
+        isOpen={isOpenAddProject}
+        setIsOpen={setIsOpenAddProject}
+        setForm={setAddProjectForm}
+        onSubmit={addProject}
       />
     </>
   )

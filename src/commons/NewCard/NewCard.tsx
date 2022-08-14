@@ -8,7 +8,7 @@ import {
   ModalBody,
 } from "@chakra-ui/react"
 import { Dispatch, SetStateAction } from "react"
-import { CardSectionName } from "../../boundary/Card"
+import { CardSectionOptions, PriorityOptions } from "../../boundary/Card"
 import { Select } from "../Select"
 
 const TitleInput = styled.input`
@@ -66,21 +66,37 @@ export const NewCard = ({
         <h1>Add Title</h1>
         <TitleInput
           onChange={(e) =>
-            setForm((pre: any) => ({ ...pre, title: e.target.value }))
+            setForm((pre: any) => ({ ...pre, project_title: e.target.value }))
           }
         />
         <ModalBody p={0}>
           <h1>Description</h1>
           <DescriptionTextArea
             onChange={(e) =>
-              setForm((pre: any) => ({ ...pre, description: e.target.value }))
+              setForm((pre: any) => ({
+                ...pre,
+                project_description: e.target.value,
+              }))
             }
           />
           <h1>Progress</h1>
           <Select
-            options={CardSectionName}
+            options={CardSectionOptions}
             onChange={(e) =>
-              setForm((pre: any) => ({ ...pre, progress: e.target.value }))
+              setForm((pre: any) => ({
+                ...pre,
+                project_progress: e.target.value,
+              }))
+            }
+          />
+          <h1>Priority</h1>
+          <Select
+            options={PriorityOptions}
+            onChange={(e) =>
+              setForm((pre: any) => ({
+                ...pre,
+                project_priority: e.target.value,
+              }))
             }
           />
         </ModalBody>
