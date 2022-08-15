@@ -9,6 +9,7 @@ const Container = styled.div`
 
 export interface CardProps {
   title: string
+  onClick: (e: any) => void
 }
 
 const CardTitle = styled.div`
@@ -17,9 +18,9 @@ const CardTitle = styled.div`
   margin-top: 10px;
 `
 
-export const Card = ({ title }: CardProps) => {
+export const Card = ({ title, onClick }: CardProps) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <CardTitle>{title}</CardTitle>
     </Container>
   )

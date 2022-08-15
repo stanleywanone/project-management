@@ -7,8 +7,13 @@ export interface useBodyReturns {
   projects: any
   addProject: (data: any) => Promise<any>
   setAddProjectForm: Dispatch<SetStateAction<any>>
+  editProjectform: (data: any) => Promise<any>
+  setEditProjectForm: Dispatch<SetStateAction<any>>
   isOpenAddProject: boolean
   setIsOpenAddProject: Dispatch<SetStateAction<boolean>>
+  editProject: (id: string) => void
+  isOpenEditProject: boolean
+  setIsOpenEditProject: Dispatch<SetStateAction<boolean>>
 }
 
 export const useBody = () => {
@@ -17,7 +22,9 @@ export const useBody = () => {
     project_priority: PriorityOptions[0].value,
     project_progress: CardSectionOptions[0].value,
   })
+  const [editProjectform, setEditProjectForm] = useState({})
   const [isOpenAddProject, setIsOpenAddProject] = useState(false)
+  const [isOpenEditProject, setIsOpenEditProject] = useState(false)
 
   useEffect(() => {
     GET_PROJECTS().then((p) => setProjects(p))
@@ -35,11 +42,24 @@ export const useBody = () => {
     })
   }
 
+  const editProject = (e: any, id: string) => {
+    if (e.detail === 2) {
+      const project = projects.filter((p: any) => p.id === id)[0]
+      setEditProjectForm(project)
+      setIsOpenEditProject(true)
+    }
+  }
+
   return {
     projects,
     addProject,
     setAddProjectForm,
     isOpenAddProject,
     setIsOpenAddProject,
+    editProjectform,
+    setEditProjectForm,
+    editProject,
+    isOpenEditProject,
+    setIsOpenEditProject,
   }
 }

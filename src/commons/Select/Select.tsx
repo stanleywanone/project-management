@@ -8,6 +8,7 @@ export interface SelectOption {
 export interface SelectProps {
   options?: SelectOption[]
   onChange: (e: any) => void
+  value?: any
 }
 
 const SelectCustom = styled.select`
@@ -17,9 +18,9 @@ const SelectCustom = styled.select`
   cursor: pointer;
 `
 
-export const Select = ({ options = [], onChange }: SelectProps) => {
+export const Select = ({ options = [], onChange, value }: SelectProps) => {
   return (
-    <SelectCustom onChange={onChange}>
+    <SelectCustom onChange={onChange} value={value}>
       {options.map((option) => {
         return (
           <option value={option.value} key={`${option.value} value`}>

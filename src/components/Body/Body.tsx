@@ -1,6 +1,7 @@
 import { CardSectionOptions } from "../../boundary/Card"
 import { Card } from "../../commons/Card"
 import { CardSection } from "../../commons/CardSection"
+import { EditCard } from "../../commons/EditCard"
 import { NewCard } from "../../commons/NewCard"
 import { useBody } from "./hooks/useBody"
 
@@ -11,8 +12,12 @@ export const Body = () => {
     setAddProjectForm,
     isOpenAddProject,
     setIsOpenAddProject,
+    editProjectform,
+    setEditProjectForm,
+    editProject,
+    isOpenEditProject,
+    setIsOpenEditProject,
   } = useBody()
-
   return (
     <>
       {CardSectionOptions.map((cardSection) => {
@@ -29,6 +34,7 @@ export const Body = () => {
                   <Card
                     title={p.project_title}
                     key={`${p.project_title} title`}
+                    onClick={(e) => editProject(e, p.id)}
                   />
                 )
               })}
@@ -40,6 +46,13 @@ export const Body = () => {
         setIsOpen={setIsOpenAddProject}
         setForm={setAddProjectForm}
         onSubmit={addProject}
+      />
+      <EditCard
+        isOpen={isOpenEditProject}
+        setIsOpen={setIsOpenEditProject}
+        setForm={setEditProjectForm}
+        onSubmit={addProject}
+        editForm={editProjectform}
       />
     </>
   )
