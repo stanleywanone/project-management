@@ -17,6 +17,7 @@ export const Body = () => {
     editProject,
     isOpenEditProject,
     setIsOpenEditProject,
+    updatedProject,
   } = useBody()
   return (
     <>
@@ -51,7 +52,7 @@ export const Body = () => {
         isOpen={isOpenEditProject}
         setIsOpen={setIsOpenEditProject}
         setForm={setEditProjectForm}
-        onSubmit={addProject}
+        onSubmit={updatedProject}
         editForm={editProjectform}
       />
     </>

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { CardSectionOptions, PriorityOptions } from "../../../boundary/Card"
 import { GET_PROJECTS } from "../api/get"
-import { ADD_PROJECT } from "../api/post"
+import { ADD_PROJECT, UPDATED_PROJECT } from "../api/post"
 
 export interface useBodyReturns {
   projects: any
@@ -22,7 +22,7 @@ export const useBody = () => {
     project_priority: PriorityOptions[0].value,
     project_progress: CardSectionOptions[0].value,
   })
-  const [editProjectform, setEditProjectForm] = useState({})
+  const [editProjectform, setEditProjectForm] = useState({} as any)
   const [isOpenAddProject, setIsOpenAddProject] = useState(false)
   const [isOpenEditProject, setIsOpenEditProject] = useState(false)
 
@@ -50,6 +50,23 @@ export const useBody = () => {
     }
   }
 
+  const updatedProject = async (): Promise<any> => {
+    UPDATED_PROJECT(editProjectform).then((s) => {
+      if (s.status === "success") {
+        setIsOpenEditProject(false)
+        const newProjects = projects.map((p: any) => {
+          if (p.id === editProjectform.id) {
+            return { ...p, ...editProjectform }
+          }
+          return p
+        })
+        setProjects(newProjects)
+      } else {
+        setIsOpenEditProject(true)
+      }
+    })
+  }
+
   return {
     projects,
     addProject,
@@ -61,5 +78,6 @@ export const useBody = () => {
     editProject,
     isOpenEditProject,
     setIsOpenEditProject,
+    updatedProject,
   }
 }
