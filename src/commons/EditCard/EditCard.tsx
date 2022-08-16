@@ -109,7 +109,7 @@ export const EditCard = ({
 
         <ModalFooter p={0} my={3}>
           <CancelButton onClick={() => setIsOpen(false)}>Cancel</CancelButton>
-          <SumbitButton onClick={() => onSubmit()}>Submit</SumbitButton>
+          <SumbitButton onClick={() => onSubmit()}>Save</SumbitButton>
         </ModalFooter>
       </ModalContent>
     </Modal>
