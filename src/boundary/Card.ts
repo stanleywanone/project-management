@@ -11,3 +11,9 @@ export const PriorityOptions = [
   { value: "medium", label: "Medium" },
   { value: "low", label: "Low" },
 ]
+
+export const TypeOptions = [
+  { value: "feature", label: "Feature" },
+  { value: "modify", label: "Modify" },
+  { value: "fix", label: "Fix" },
+]

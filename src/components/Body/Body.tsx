@@ -37,6 +37,7 @@ export const Body = () => {
                     key={`${p.project_title} title`}
                     onClick={(e) => editProject(e, p.id)}
                     priority={p.project_priority}
+                    type={p.project_type}
                   />
                 )
               })}

@@ -1,5 +1,9 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { CardSectionOptions, PriorityOptions } from "../../../boundary/Card"
+import {
+  CardSectionOptions,
+  PriorityOptions,
+  TypeOptions,
+} from "../../../boundary/Card"
 import { GET_PROJECTS } from "../api/get"
 import { ADD_PROJECT, UPDATED_PROJECT } from "../api/post"
 
@@ -21,6 +25,7 @@ export const useBody = () => {
   const [addProjectform, setAddProjectForm] = useState({
     project_priority: PriorityOptions[0].value,
     project_progress: CardSectionOptions[0].value,
+    project_type: TypeOptions[0].value,
   })
   const [editProjectform, setEditProjectForm] = useState({} as any)
   const [isOpenAddProject, setIsOpenAddProject] = useState(false)

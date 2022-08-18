@@ -15,6 +15,7 @@ export interface CardProps {
   title: string
   onClick: (e: any) => void
   priority?: string
+  type?: string
 }
 
 const CardTitle = styled.div`
@@ -37,7 +38,22 @@ const PriorityLabel = styled.div<{ backgroundColor: string }>`
   padding: 0px 3px;
 `
 
-export const Card = ({ title, onClick, priority = "high" }: CardProps) => {
+const CardType = styled.div<{ type: string }>`
+  background-color: ${(props) => props.type};
+  width: fit-content;
+  border-radius: 5px;
+  padding: 0px 5px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+`
+
+export const Card = ({
+  title,
+  onClick,
+  priority = "high",
+  type = "fix",
+}: CardProps) => {
   const priorityBackGroundColor = (priority: string): string => {
     switch (priority) {
       case "high":
@@ -49,8 +65,20 @@ export const Card = ({ title, onClick, priority = "high" }: CardProps) => {
     }
   }
 
+  const typeBackgroundColor = (type: string): string => {
+    switch (type) {
+      case "feature":
+        return "#4ee44e"
+      case "modify":
+        return "#bf90ee"
+      default:
+        return "#ee9090"
+    }
+  }
+
   return (
     <Container onClick={onClick}>
+      <CardType type={typeBackgroundColor(type)}>{type}</CardType>
       <CardTitle>{title}</CardTitle>
       <PriorityContainer>
         <PriorityLabel backgroundColor={priorityBackGroundColor(priority)}>

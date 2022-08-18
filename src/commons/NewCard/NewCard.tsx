@@ -8,7 +8,11 @@ import {
   ModalBody,
 } from "@chakra-ui/react"
 import { Dispatch, SetStateAction } from "react"
-import { CardSectionOptions, PriorityOptions } from "../../boundary/Card"
+import {
+  CardSectionOptions,
+  PriorityOptions,
+  TypeOptions,
+} from "../../boundary/Card"
 import { Select } from "../Select"
 
 const TitleInput = styled.input`
@@ -96,6 +100,16 @@ export const NewCard = ({
               setForm((pre: any) => ({
                 ...pre,
                 project_priority: e.target.value,
+              }))
+            }
+          />
+          <h1>Type</h1>
+          <Select
+            options={TypeOptions}
+            onChange={(e) =>
+              setForm((pre: any) => ({
+                ...pre,
+                project_type: e.target.value,
               }))
             }
           />
