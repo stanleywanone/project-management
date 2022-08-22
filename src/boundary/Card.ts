@@ -17,3 +17,11 @@ export const TypeOptions = [
   { value: "modify", label: "Modify" },
   { value: "fix", label: "Fix" },
 ]
+
+export const ProgressOptions = [
+  "backlog",
+  "toDo",
+  "inProgress",
+  "paused",
+  "accepted",
+]

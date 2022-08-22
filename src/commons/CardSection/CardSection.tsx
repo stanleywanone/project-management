@@ -32,19 +32,23 @@ const CardContainerSectionContainer = styled.div`
   overflow: scroll;
 `
 
-export interface CardContainerSectionProps {
+export interface CardContainerSectionProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   children?: JSX.Element | JSX.Element[]
 }
 
 export const CardContainerSection = ({
   children,
+  ...props
 }: CardContainerSectionProps) => {
   return (
-    <CardContainerSectionContainer>{children}</CardContainerSectionContainer>
+    <CardContainerSectionContainer {...props}>
+      {children}
+    </CardContainerSectionContainer>
   )
 }
 
-export interface CardSectionProps {
+export interface CardSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: JSX.Element | JSX.Element[]
   name?: string
   setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -54,9 +58,10 @@ export const CardSection = ({
   children,
   name,
   setIsOpen,
+  ...props
 }: CardSectionProps) => {
   return (
-    <Container>
+    <Container {...props}>
       <CardSectionName>{name}</CardSectionName>
       <CardContainerSection>{children}</CardContainerSection>
       <AddCard onClick={() => setIsOpen(true)}>+ Add new card</AddCard>

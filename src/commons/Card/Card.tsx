@@ -11,11 +11,12 @@ const Container = styled.div`
   padding: 5px 5px;
 `
 
-export interface CardProps {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   onClick: (e: any) => void
   priority?: string
   type?: string
+  isDragging: boolean
 }
 
 const CardTitle = styled.div`
@@ -53,6 +54,8 @@ export const Card = ({
   onClick,
   priority = "high",
   type = "fix",
+  isDragging,
+  ...props
 }: CardProps) => {
   const priorityBackGroundColor = (priority: string): string => {
     switch (priority) {
@@ -76,8 +79,8 @@ export const Card = ({
     }
   }
 
-  return (
-    <Container onClick={onClick}>
+  return isDragging ? null : (
+    <Container onClick={onClick} {...props}>
       <CardType type={typeBackgroundColor(type)}>{type}</CardType>
       <CardTitle>{title}</CardTitle>
       <PriorityContainer>
