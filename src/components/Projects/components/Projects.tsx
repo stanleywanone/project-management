@@ -10,24 +10,21 @@ export interface ProjectsProps {
   projects: any
   setIsOpenAddProject: Dispatch<SetStateAction<boolean>>
   editProject: (e: any, id: string) => void
+  setProjects: Dispatch<SetStateAction<any>>
 }
 
 export const Projects = ({
   projects,
+  setProjects,
   setIsOpenAddProject,
   editProject,
 }: ProjectsProps) => {
-  const [cards, setCards] = useState(projects)
   const [updateLoading, setUpdateLoading] = useState(false)
 
   const { dragEnter, dropOver, dragging, setDragging, newProgress } =
     useProjects()
 
   const dragItem = useRef(null)
-
-  useEffect(() => {
-    setCards(projects)
-  }, [projects])
 
   const dragStart = (e: any, items: any) => {
     dragItem.current = items
@@ -42,13 +39,13 @@ export const Projects = ({
     UPDATED_DRAG_PROJECT((currentItem as any).id, newProgress).then((s) => {
       if (s.status === "success")
         if (currentItem) {
-          const newCards = cards.map((card: any) => {
-            if (card.id === (currentItem as any).id) {
-              return { ...card, project_progress: newProgress }
+          const newProjects = projects.map((project: any) => {
+            if (project.id === (currentItem as any).id) {
+              return { ...project, project_progress: newProgress }
             }
-            return card
+            return project
           })
-          setCards(newCards)
+          setProjects(newProjects)
           dragItem.current = null
           setUpdateLoading(false)
         }
@@ -57,7 +54,7 @@ export const Projects = ({
     setDragging(false)
   }
 
-  if (cards.length === 0 || updateLoading)
+  if (projects.length === 0 || updateLoading)
     return <Loading updateLoading={updateLoading} />
 
   return (
@@ -74,7 +71,7 @@ export const Projects = ({
             onDragOver={dropOver}
             onDrop={drop}
           >
-            {cards
+            {projects
               .filter((p: any) => p.project_progress === cardSection.value)
               .map((p: any) => {
                 return (

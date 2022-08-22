@@ -18,6 +18,7 @@ export interface useBodyReturns {
   editProject: (id: string) => void
   isOpenEditProject: boolean
   setIsOpenEditProject: Dispatch<SetStateAction<boolean>>
+  setProjects: Dispatch<SetStateAction<any>>
 }
 
 export const useBody = () => {
@@ -84,5 +85,6 @@ export const useBody = () => {
     isOpenEditProject,
     setIsOpenEditProject,
     updatedProject,
+    setProjects,
   }
 }

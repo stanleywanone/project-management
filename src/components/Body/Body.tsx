@@ -16,10 +16,12 @@ export const Body = () => {
     isOpenEditProject,
     setIsOpenEditProject,
     updatedProject,
+    setProjects,
   } = useBody()
   return (
     <>
       <Projects
+        setProjects={setProjects}
         projects={projects}
         editProject={editProject}
         setIsOpenAddProject={setIsOpenAddProject}
