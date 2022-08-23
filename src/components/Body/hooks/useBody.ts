@@ -5,7 +5,7 @@ import {
   TypeOptions,
 } from "../../../boundary/Card"
 import { GET_PROJECTS } from "../api/get"
-import { ADD_PROJECT, UPDATED_PROJECT } from "../api/post"
+import { ADD_PROJECT, DELETE_PROJECT, UPDATED_PROJECT } from "../api/post"
 
 export interface useBodyReturns {
   projects: any
@@ -19,6 +19,9 @@ export interface useBodyReturns {
   isOpenEditProject: boolean
   setIsOpenEditProject: Dispatch<SetStateAction<boolean>>
   setProjects: Dispatch<SetStateAction<any>>
+  openDeleteModal: boolean
+  setOpenDeleteModal: Dispatch<SetStateAction<boolean>>
+  deleteProject: (id: string) => Promise<any>
 }
 
 export const useBody = () => {
@@ -31,6 +34,7 @@ export const useBody = () => {
   const [editProjectform, setEditProjectForm] = useState({} as any)
   const [isOpenAddProject, setIsOpenAddProject] = useState(false)
   const [isOpenEditProject, setIsOpenEditProject] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   useEffect(() => {
     GET_PROJECTS().then((p) => setProjects(p))
@@ -67,8 +71,17 @@ export const useBody = () => {
           return p
         })
         setProjects(newProjects)
-      } else {
-        setIsOpenEditProject(true)
+      }
+    })
+  }
+
+  const deleteProject = async (id: string): Promise<any> => {
+    DELETE_PROJECT(id).then((s) => {
+      if (s.status === "success") {
+        setIsOpenEditProject(false)
+        setOpenDeleteModal(false)
+        const newProjects = projects.filter((p: any) => p.id !== id)
+        setProjects(newProjects)
       }
     })
   }
@@ -86,5 +99,8 @@ export const useBody = () => {
     setIsOpenEditProject,
     updatedProject,
     setProjects,
+    openDeleteModal,
+    setOpenDeleteModal,
+    deleteProject,
   }
 }

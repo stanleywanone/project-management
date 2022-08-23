@@ -13,9 +13,12 @@ export const PriorityOptions = [
 ]
 
 export const TypeOptions = [
-  { value: "feature", label: "Feature" },
-  { value: "modify", label: "Modify" },
-  { value: "fix", label: "Fix" },
+  { value: "feature-frontend", label: "Feature-frontend" },
+  { value: "feature-backend", label: "Feature-backend" },
+  { value: "modify-frontend", label: "Modify-frontend" },
+  { value: "modify-backend", label: "Modify-backend" },
+  { value: "fix-frontend", label: "Fix-frontend" },
+  { value: "fix-backend", label: "Fix-backend" },
 ]
 
 export const ProgressOptions = [

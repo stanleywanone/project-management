@@ -17,6 +17,9 @@ export const Body = () => {
     setIsOpenEditProject,
     updatedProject,
     setProjects,
+    openDeleteModal,
+    setOpenDeleteModal,
+    deleteProject,
   } = useBody()
   return (
     <>
@@ -38,6 +41,9 @@ export const Body = () => {
         setForm={setEditProjectForm}
         onSubmit={updatedProject}
         editForm={editProjectform}
+        openDeleteModal={openDeleteModal}
+        setOpenDeleteModal={setOpenDeleteModal}
+        deleteProject={deleteProject}
       />
     </>
   )

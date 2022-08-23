@@ -74,6 +74,17 @@ export const Card = ({
         return "#4ee44e"
       case "modify":
         return "#bf90ee"
+      case "fix":
+        return "#ee9090"
+      case "feature-frontend":
+      case "feature-backend":
+        return "#4ee44e"
+      case "modify-frontend":
+      case "modify-backend":
+        return "#bf90ee"
+      case "fix-frontend":
+      case "fix-backend":
+        return "#ee9090"
       default:
         return "#ee9090"
     }
