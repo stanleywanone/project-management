@@ -6,6 +6,7 @@ import {
 } from "../../../boundary/Card"
 import { GET_PROJECTS } from "../api/get"
 import { ADD_PROJECT, DELETE_PROJECT, UPDATED_PROJECT } from "../api/post"
+import { v4 as uuidv4 } from "uuid"
 
 export interface useBodyReturns {
   projects: any
@@ -41,10 +42,11 @@ export const useBody = () => {
   }, [])
 
   const addProject = async (): Promise<any> => {
-    ADD_PROJECT(addProjectform).then((s) => {
+    const prjectForm = { ...addProjectform, id: uuidv4() }
+    ADD_PROJECT(prjectForm).then((s) => {
       if (s.status === "success") {
         setIsOpenAddProject(false)
-        const newProjects = [...projects, { ...addProjectform }]
+        const newProjects = [...projects, { ...prjectForm }]
         setProjects(newProjects)
       } else {
         setIsOpenAddProject(true)
