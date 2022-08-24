@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useRef, useState } from "react"
 import { CardSectionOptions } from "../../../boundary/Card"
 import { Card } from "../../../commons/Card"
 import { CardSection } from "../../../commons/CardSection"
