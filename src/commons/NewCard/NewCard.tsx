@@ -83,26 +83,32 @@ export const NewCard = ({
               }))
             }
           />
-          <h1>Progress</h1>
-          <Select
-            options={CardSectionOptions}
-            onChange={(e) =>
-              setForm((pre: any) => ({
-                ...pre,
-                project_progress: e.target.value,
-              }))
-            }
-          />
-          <h1>Priority</h1>
-          <Select
-            options={PriorityOptions}
-            onChange={(e) =>
-              setForm((pre: any) => ({
-                ...pre,
-                project_priority: e.target.value,
-              }))
-            }
-          />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <h1>Progress</h1>
+              <Select
+                options={CardSectionOptions}
+                onChange={(e) =>
+                  setForm((pre: any) => ({
+                    ...pre,
+                    project_progress: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <h1>Priority</h1>
+              <Select
+                options={PriorityOptions}
+                onChange={(e) =>
+                  setForm((pre: any) => ({
+                    ...pre,
+                    project_priority: e.target.value,
+                  }))
+                }
+              />
+            </div>
+          </div>
           <h1>Type</h1>
           <Select
             options={TypeOptions}

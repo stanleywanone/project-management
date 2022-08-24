@@ -5,7 +5,7 @@ export interface SelectOption {
   label: string
 }
 
-export interface SelectProps {
+export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
   options?: SelectOption[]
   onChange: (e: any) => void
   value?: any
@@ -16,6 +16,7 @@ const SelectCustom = styled.select`
   border-radius: 5px;
   padding: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
 `
 
 export const Select = ({ options = [], onChange, value }: SelectProps) => {
