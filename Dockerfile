@@ -6,7 +6,7 @@ WORKDIR /project-management
 COPY package.json .
 
 RUN yarn install
-# Copy app files
+# Copy all files
 COPY . .
 # Expose port
 EXPOSE 3000
