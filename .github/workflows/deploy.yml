@@ -16,14 +16,37 @@ jobs:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
+    # steps:
+    #   - uses: actions/checkout@v3
+    #   - name: Checkout code
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: "16"
+    #   - run: yarn install
+    #   - run: yarn build --if-present
+    #   - name: Build the Docker image
+    #     uses: actions/setup-node@v3
+    #   - run: docker compose build
     steps:
-      - uses: actions/checkout@v3
+      ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          node-version: "16"
-      - run: yarn install
-      - run: yarn build --if-present
-      - name: Build the Docker image
-        uses: actions/setup-node@v3
-      - run: docker compose build
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR Private
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: project-management-server
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
