@@ -5,7 +5,7 @@ export const UPDATED_DRAG_PROJECT = async (id: string, newProgress: string) => {
     body: JSON.stringify(newProgress),
   }
   const response = await fetch(
-    `https://pm-one.herokuapp.com/projectsApp/updated_drag_project/${id}`,
+    `https://pm-django-backend.herokuapp.com/projectsApp/updated_drag_project/${id}`,
     requestOptions
   )
   const status = response.json()
