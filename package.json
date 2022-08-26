@@ -2,6 +2,10 @@
   "name": "project-management",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "yarn": "1.22.17",
+    "node": "14.18.1"
+  },
   "dependencies": {
     "@chakra-ui/react": "^2.2.8",
     "@emotion/react": "^11.10.0",
