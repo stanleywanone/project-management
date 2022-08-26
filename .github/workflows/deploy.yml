@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn install
-      - run: yarn start --if-present
+      - run: yarn build --if-present
 
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
