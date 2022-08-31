@@ -9,7 +9,7 @@ export const ProjectsContainer = styled.div`
   min-height: 100vh;
   display: grid;
   grid-template: "header" "body";
-  grid-templaterows: 10% 90%;
+  grid-template-rows: 10% 90%;
 `
 
 export const ProjectBody = styled.div`
