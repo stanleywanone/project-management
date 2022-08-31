@@ -1,99 +1,74 @@
-import { Dispatch, SetStateAction, useRef, useState } from "react"
-import { CardSectionOptions } from "../../../boundary/Card"
-import { Card } from "../../../commons/Card"
-import { CardSection } from "../../../commons/CardSection"
-import { Loading } from "../../../commons/Loading"
-import { UPDATED_DRAG_PROJECT } from "../api/post"
+import styled from "styled-components"
+import { EditCard } from "../../../commons/EditCard"
+import { NewCard } from "../../../commons/NewCard"
+import { Header } from "../../Header"
 import { useProjects } from "../hooks/useProjects"
+import { ProjectCards } from "./ProjectCards"
 
-export interface ProjectsProps {
-  projects: any
-  setIsOpenAddProject: Dispatch<SetStateAction<boolean>>
-  editProject: (e: any, id: string) => void
-  setProjects: Dispatch<SetStateAction<any>>
-}
+export const ProjectsContainer = styled.div`
+  min-height: 100vh;
+  display: grid;
+  grid-template: "header" "body";
+  grid-templaterows: 10% 90%;
+`
 
-export const Projects = ({
-  projects,
-  setProjects,
-  setIsOpenAddProject,
-  editProject,
-}: ProjectsProps) => {
-  const [updateLoading, setUpdateLoading] = useState(false)
+export const ProjectBody = styled.div`
+  grid-area: body;
+  background-color: var(--secondary-color);
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+`
 
-  const { dragEnter, dropOver, dragging, setDragging, newProgress } =
-    useProjects()
+export const Projects = () => {
+  const {
+    projects,
+    addProject,
+    setAddProjectForm,
+    isOpenAddProject,
+    setIsOpenAddProject,
+    editProjectform,
+    setEditProjectForm,
+    editProject,
+    isOpenEditProject,
+    setIsOpenEditProject,
+    updatedProject,
+    setProjects,
+    openDeleteModal,
+    setOpenDeleteModal,
+    deleteProject,
+  } = useProjects()
 
-  const dragItem = useRef(null)
-
-  const dragStart = (e: any, items: any) => {
-    dragItem.current = items
-    setTimeout(() => {
-      setDragging(true)
-    }, 0)
-  }
-
-  const drop = (e: any) => {
-    const currentItem = dragItem.current
-    setUpdateLoading(true)
-    UPDATED_DRAG_PROJECT((currentItem as any).id, newProgress).then((s) => {
-      if (s.status === "success")
-        if (currentItem) {
-          const newProjects = projects.map((project: any) => {
-            if (project.id === (currentItem as any).id) {
-              return { ...project, project_progress: newProgress }
-            }
-            return project
-          })
-          setProjects(newProjects)
-          dragItem.current = null
-          setUpdateLoading(false)
-        }
-    })
-
-    setDragging(false)
-  }
-
-  if (projects.length === 0 || updateLoading)
-    return <Loading updateLoading={updateLoading} />
-
+  const title = "Project Management"
   return (
-    <>
-      {CardSectionOptions.map((cardSection, cardSectionIndex) => {
-        return (
-          <CardSection
-            name={cardSection.label}
-            setIsOpen={setIsOpenAddProject}
-            key={`cardSection.label ${cardSection.label}`}
-            onDragEnter={
-              dragging ? (e) => dragEnter(e, { cardSectionIndex }) : undefined
-            }
-            onDragOver={dropOver}
-            onDrop={drop}
-          >
-            {projects
-              .filter((p: any) => p.project_progress === cardSection.value)
-              .map((p: any) => {
-                return (
-                  <Card
-                    title={p.project_title}
-                    key={`${p.project_title} title`}
-                    onClick={(e) => editProject(e, p.id)}
-                    priority={p.project_priority}
-                    type={p.project_type}
-                    draggable
-                    onDragStart={(e) =>
-                      dragStart(e, { cardSectionIndex, id: p.id })
-                    }
-                    isDragging={
-                      dragging && p.id === (dragItem.current as any).id
-                    }
-                  />
-                )
-              })}
-          </CardSection>
-        )
-      })}
-    </>
+    <ProjectsContainer>
+      <Header title={title} />
+      <ProjectBody>
+        <ProjectCards
+          setProjects={setProjects}
+          projects={projects}
+          editProject={editProject}
+          setIsOpenAddProject={setIsOpenAddProject}
+        />
+        <NewCard
+          isOpen={isOpenAddProject}
+          setIsOpen={setIsOpenAddProject}
+          setForm={setAddProjectForm}
+          onSubmit={addProject}
+        />
+        <EditCard
+          isOpen={isOpenEditProject}
+          setIsOpen={setIsOpenEditProject}
+          setForm={setEditProjectForm}
+          onSubmit={updatedProject}
+          editForm={editProjectform}
+          openDeleteModal={openDeleteModal}
+          setOpenDeleteModal={setOpenDeleteModal}
+          deleteProject={deleteProject}
+        />
+      </ProjectBody>
+    </ProjectsContainer>
   )
 }
+
+export default Projects
