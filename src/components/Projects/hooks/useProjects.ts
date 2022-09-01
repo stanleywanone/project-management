@@ -7,6 +7,7 @@ import {
 import { GET_PROJECTS } from "../api/get"
 import { ADD_PROJECT, DELETE_PROJECT, UPDATED_PROJECT } from "../api/post"
 import { v4 as uuidv4 } from "uuid"
+import { useError } from "../../../utlies/useError"
 
 export interface useProjectsReturns {
   projects: any
@@ -37,9 +38,17 @@ export const useProjects = () => {
   const [isOpenEditProject, setIsOpenEditProject] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
+  const { errorResult } = useError()
+
   useEffect(() => {
-    GET_PROJECTS().then((p) => setProjects(p))
-  }, [])
+    GET_PROJECTS().then((res) => {
+      if (res.status === "success") {
+        setProjects(res.data)
+        return
+      }
+      errorResult(res)
+    })
+  }, [errorResult])
 
   const addProject = async (): Promise<any> => {
     const prjectForm = { ...addProjectform, id: uuidv4() }
@@ -50,6 +59,7 @@ export const useProjects = () => {
         setProjects(newProjects)
       } else {
         setIsOpenAddProject(true)
+        errorResult(s)
       }
     })
   }
@@ -73,7 +83,9 @@ export const useProjects = () => {
           return p
         })
         setProjects(newProjects)
+        return
       }
+      errorResult(s)
     })
   }
 
@@ -84,7 +96,9 @@ export const useProjects = () => {
         setOpenDeleteModal(false)
         const newProjects = projects.filter((p: any) => p.id !== id)
         setProjects(newProjects)
+        return
       }
+      errorResult(s)
     })
   }
 

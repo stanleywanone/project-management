@@ -1,5 +1,7 @@
 import styled from "styled-components"
 import { Text } from "../../../commons/Text"
+import { useAuth } from "../hooks/useAuth"
+import AuthSignIn from "./AuthSignIn"
 import AuthSignUp from "./AuthSignUp"
 
 export const AuthContainer = styled.div`
@@ -27,11 +29,8 @@ export const User = styled.div`
   align-items: center;
 `
 
-export interface AuthProps {
-  auth: string
-}
-
-export const Auth = ({ auth }: AuthProps) => {
+export const Auth = () => {
+  const { signIn, setSignIn } = useAuth()
   return (
     <AuthContainer>
       <AuthWelcome>
@@ -43,7 +42,11 @@ export const Auth = ({ auth }: AuthProps) => {
         </Text>
       </AuthWelcome>
       <User>
-        <AuthSignUp />
+        {signIn ? (
+          <AuthSignIn setSignIn={setSignIn} />
+        ) : (
+          <AuthSignUp setSignIn={setSignIn} />
+        )}
       </User>
     </AuthContainer>
   )

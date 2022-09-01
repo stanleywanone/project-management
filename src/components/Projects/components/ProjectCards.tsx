@@ -3,6 +3,7 @@ import { CardSectionOptions } from "../../../boundary/Card"
 import { Card } from "../../../commons/Card"
 import { CardSection } from "../../../commons/CardSection"
 import { Loading } from "../../../commons/Loading"
+import { useError } from "../../../utlies/useError"
 import { UPDATED_DRAG_PROJECT } from "../api/post"
 import { useDrag } from "../hooks/useDrag"
 
@@ -20,23 +21,24 @@ export const ProjectCards = ({
   editProject,
 }: ProjectCardsProps) => {
   const [updateLoading, setUpdateLoading] = useState(false)
+  const { errorResult } = useError()
 
   const { dragEnter, dropOver, dragging, setDragging, newProgress } = useDrag()
 
   const dragItem = useRef(null)
 
-  const dragStart = (e: any, items: any) => {
+  const dragStart = (items: any) => {
     dragItem.current = items
     setTimeout(() => {
       setDragging(true)
     }, 0)
   }
 
-  const drop = (e: any) => {
+  const drop = () => {
     const currentItem = dragItem.current
     setUpdateLoading(true)
     UPDATED_DRAG_PROJECT((currentItem as any).id, newProgress).then((s) => {
-      if (s.status === "success")
+      if (s.status === "success") {
         if (currentItem) {
           const newProjects = projects.map((project: any) => {
             if (project.id === (currentItem as any).id) {
@@ -48,9 +50,12 @@ export const ProjectCards = ({
           dragItem.current = null
           setUpdateLoading(false)
         }
+        return
+      }
+      setDragging(false)
+      errorResult(s)
+      return
     })
-
-    setDragging(false)
   }
 
   if (projects.length === 0 || updateLoading)
@@ -68,7 +73,7 @@ export const ProjectCards = ({
               dragging ? (e) => dragEnter(e, { cardSectionIndex }) : undefined
             }
             onDragOver={dropOver}
-            onDrop={drop}
+            onDrop={() => drop()}
           >
             {projects
               .filter((p: any) => p.project_progress === cardSection.value)
@@ -81,11 +86,11 @@ export const ProjectCards = ({
                     priority={p.project_priority}
                     type={p.project_type}
                     draggable
-                    onDragStart={(e) =>
-                      dragStart(e, { cardSectionIndex, id: p.id })
+                    onDragStart={() =>
+                      dragStart({ cardSectionIndex, id: p.id })
                     }
                     isDragging={
-                      dragging && p.id === (dragItem.current as any).id
+                      dragging && p.id === (dragItem.current as any)?.id
                     }
                   />
                 )

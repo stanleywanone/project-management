@@ -1,6 +1,10 @@
+import { API_ENDPOINTS } from "../../../utlies/endpoints"
+import { RequestMethods, requestOptions } from "../../../utlies/requestOptions"
+
 export const GET_PROJECTS = async () => {
   const response = await fetch(
-    "https://pm-django-backend.herokuapp.com/projectsApp/get_projects"
+    `${API_ENDPOINTS()}/projectsApp/get_projects`,
+    requestOptions(RequestMethods.GET)
   )
   const projects = await response.json()
   return projects
