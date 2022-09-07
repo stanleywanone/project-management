@@ -1,17 +1,17 @@
-import { Dispatch, SetStateAction, useRef, useState } from "react"
-import { CardSectionOptions } from "../../../boundary/Card"
-import { Card } from "../../../commons/Card"
-import { CardSection } from "../../../commons/CardSection"
-import { Loading } from "../../../commons/Loading"
-import { useError } from "../../../utlies/useError"
-import { UPDATED_DRAG_PROJECT } from "../api/post"
-import { useDrag } from "../hooks/useDrag"
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { CardSectionOptions } from "../../../boundary/Card";
+import { Card } from "../../../commons/Card";
+import { CardSection } from "../../../commons/CardSection";
+import { Loading } from "../../../commons/Loading";
+import { useError } from "../../../utlies/useError";
+import { UPDATED_DRAG_PROJECT } from "../api/post";
+import { useDrag } from "../hooks/useDrag";
 
 export interface ProjectCardsProps {
-  projects: any
-  setIsOpenAddProject: Dispatch<SetStateAction<boolean>>
-  editProject: (e: any, id: string) => void
-  setProjects: Dispatch<SetStateAction<any>>
+  projects: any;
+  setIsOpenAddProject: Dispatch<SetStateAction<boolean>>;
+  editProject: (e: any, id: string) => void;
+  setProjects: Dispatch<SetStateAction<any>>;
 }
 
 export const ProjectCards = ({
@@ -20,46 +20,46 @@ export const ProjectCards = ({
   setIsOpenAddProject,
   editProject,
 }: ProjectCardsProps) => {
-  const [updateLoading, setUpdateLoading] = useState(false)
-  const { errorResult } = useError()
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const { errorResult } = useError();
 
-  const { dragEnter, dropOver, dragging, setDragging, newProgress } = useDrag()
+  const { dragEnter, dropOver, dragging, setDragging, newProgress } = useDrag();
 
-  const dragItem = useRef(null)
+  const dragItem = useRef(null);
 
   const dragStart = (items: any) => {
-    dragItem.current = items
+    dragItem.current = items;
     setTimeout(() => {
-      setDragging(true)
-    }, 0)
-  }
+      setDragging(true);
+    }, 0);
+  };
 
   const drop = () => {
-    const currentItem = dragItem.current
-    setUpdateLoading(true)
+    const currentItem = dragItem.current;
+    setUpdateLoading(true);
     UPDATED_DRAG_PROJECT((currentItem as any).id, newProgress).then((s) => {
       if (s.status === "success") {
         if (currentItem) {
           const newProjects = projects.map((project: any) => {
             if (project.id === (currentItem as any).id) {
-              return { ...project, project_progress: newProgress }
+              return { ...project, project_progress: newProgress };
             }
-            return project
-          })
-          setProjects(newProjects)
-          dragItem.current = null
-          setUpdateLoading(false)
+            return project;
+          });
+          setProjects(newProjects);
+          dragItem.current = null;
+          setUpdateLoading(false);
         }
-        return
+        return;
       }
-      setDragging(false)
-      errorResult(s)
-      return
-    })
-  }
+      setDragging(false);
+      errorResult(s);
+      return;
+    });
+  };
 
   if (projects.length === 0 || updateLoading)
-    return <Loading updateLoading={updateLoading} />
+    return <Loading updateLoading={updateLoading} />;
 
   return (
     <>
@@ -93,11 +93,11 @@ export const ProjectCards = ({
                       dragging && p.id === (dragItem.current as any)?.id
                     }
                   />
-                )
+                );
               })}
           </CardSection>
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};

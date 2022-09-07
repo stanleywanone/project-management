@@ -1,22 +1,23 @@
-import { Dispatch, SetStateAction, useState } from "react"
-import styled from "styled-components"
-import { Text } from "../../../commons/Text"
-import { FaUserCircle, FaLock } from "react-icons/fa"
-import { SignIn } from "../api/post"
-import { useNavigate } from "react-router-dom"
-import { useError } from "../../../utlies/useError"
+import { Dispatch, SetStateAction, useState } from "react";
+import styled from "styled-components";
+import { Text } from "../../../commons/Text";
+import { FaUserCircle, FaLock } from "react-icons/fa";
+import { SignIn } from "../api/post";
+import { useNavigate } from "react-router-dom";
+import { useError } from "../../../utlies/useError";
+import jwt from "jwt-decode";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Input = styled.input`
   border: none;
   outline: none;
   width: 100%;
   margin-left: 10px;
-`
+`;
 
 const InputContainer = styled.div`
   border: 1px solid lightGray;
@@ -25,7 +26,7 @@ const InputContainer = styled.div`
   padding: 15px;
   display: flex;
   align-items: center;
-`
+`;
 
 const Button = styled.button`
   background-color: var(--secondary-color);
@@ -34,7 +35,7 @@ const Button = styled.button`
   margin-top: 40px;
   padding: 10px;
   font-size: 24px;
-`
+`;
 
 const Form = styled.form`
   width: 300px;
@@ -42,34 +43,36 @@ const Form = styled.form`
   margin-bottom: 40px;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Banner = styled.div`
   color: var(--secondary-color);
   font-size: 18px;
   text-align: center;
-`
+`;
 export interface AuthSignInProps {
-  setSignIn: Dispatch<SetStateAction<boolean>>
+  setSignIn: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthSignIn = ({ setSignIn }: AuthSignInProps) => {
-  const navigate = useNavigate()
-  const { errorResult } = useError()
-  const [user, setUser] = useState({ username: "", password: "" })
+  const navigate = useNavigate();
+  const { errorResult } = useError();
+  const [user, setUser] = useState({ username: "", password: "" });
 
   const onSubmit = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     SignIn(user).then((res: any) => {
       if (res.access) {
-        localStorage.setItem("access", res.access)
-        localStorage.setItem("refresh", res.refresh)
-        return navigate("/projects")
+        const username = (jwt(res.access) as any).username;
+        localStorage.setItem("username", username);
+        localStorage.setItem("access", res.access);
+        localStorage.setItem("refresh", res.refresh);
+        return navigate("/projects");
       } else {
-        errorResult(res)
+        errorResult(res);
       }
-    })
-  }
+    });
+  };
 
   return (
     <Container>
@@ -116,7 +119,7 @@ export const AuthSignIn = ({ setSignIn }: AuthSignInProps) => {
         </span>
       </Banner>
     </Container>
-  )
-}
+  );
+};
 
-export default AuthSignIn
+export default AuthSignIn;

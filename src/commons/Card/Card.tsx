@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -9,24 +9,24 @@ const Container = styled.div`
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 5px 5px;
-`
+`;
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string
-  onClick: (e: any) => void
-  priority?: string
-  type?: string
-  isDragging: boolean
+  title: string;
+  onClick: (e: any) => void;
+  priority?: string;
+  type?: string;
+  isDragging: boolean;
 }
 
 const CardTitle = styled.div`
   color: var(--font-color);
-`
+`;
 
 const PriorityContainer = styled.div`
   display: flex;
   justify-content: end;
-`
+`;
 
 const PriorityLabel = styled.div<{ backgroundColor: string }>`
   display: flex;
@@ -37,7 +37,7 @@ const PriorityLabel = styled.div<{ backgroundColor: string }>`
   font-size: 12px;
   font-weight: bold;
   padding: 0px 3px;
-`
+`;
 
 const CardType = styled.div<{ type: string }>`
   background-color: ${(props) => props.type};
@@ -47,7 +47,25 @@ const CardType = styled.div<{ type: string }>`
   color: white;
   font-size: 12px;
   font-weight: bold;
-`
+`;
+
+const CardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const CardOwner = styled.div`
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const Card = ({
   title,
@@ -60,39 +78,46 @@ export const Card = ({
   const priorityBackGroundColor = (priority: string): string => {
     switch (priority) {
       case "high":
-        return "red"
+        return "red";
       case "medium":
-        return "#E8A317"
+        return "#E8A317";
       default:
-        return "green"
+        return "green";
     }
-  }
+  };
 
   const typeBackgroundColor = (type: string): string => {
     switch (type) {
       case "feature":
-        return "#4ee44e"
+        return "#4ee44e";
       case "modify":
-        return "#bf90ee"
+        return "#bf90ee";
       case "fix":
-        return "#ee9090"
+        return "#ee9090";
       case "feature-frontend":
       case "feature-backend":
-        return "#4ee44e"
+        return "#4ee44e";
       case "modify-frontend":
       case "modify-backend":
-        return "#bf90ee"
+        return "#bf90ee";
       case "fix-frontend":
       case "fix-backend":
-        return "#ee9090"
+        return "#ee9090";
       default:
-        return "#ee9090"
+        return "#ee9090";
     }
-  }
+  };
 
   return isDragging ? null : (
     <Container onClick={onClick} {...props}>
-      <CardType type={typeBackgroundColor(type)}>{type}</CardType>
+      <CardHeader>
+        {" "}
+        <CardType type={typeBackgroundColor(type)}>{type}</CardType>
+        {localStorage.getItem("username") !== null && (
+          <CardOwner>{(localStorage.getItem("username") as any)[0]}</CardOwner>
+        )}
+      </CardHeader>
+
       <CardTitle>{title}</CardTitle>
       <PriorityContainer>
         <PriorityLabel backgroundColor={priorityBackGroundColor(priority)}>
@@ -100,7 +125,7 @@ export const Card = ({
         </PriorityLabel>
       </PriorityContainer>
     </Container>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;
