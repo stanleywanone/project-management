@@ -42,6 +42,7 @@ const PriorityLabel = styled.div<{ backgroundColor: string }>`
 const CardType = styled.div<{ type: string }>`
   background-color: ${(props) => props.type};
   width: fit-content;
+  height: fit-content;
   border-radius: 5px;
   padding: 0px 5px;
   color: white;
