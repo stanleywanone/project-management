@@ -1,10 +1,11 @@
+import { useCallback } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100px;
+  height: 150px;
   background-color: var(--secondary-color);
   border-radius: 5px;
   margin-bottom: 10px;
@@ -109,6 +110,14 @@ export const Card = ({
     }
   };
 
+  const shortTitle = useCallback((title: string) => {
+    if (title.length > 80) {
+      const newTitle = title.substring(0, 81) + "...";
+      return newTitle;
+    }
+    return title;
+  }, []);
+
   return isDragging ? null : (
     <Container onClick={onClick} {...props}>
       <CardHeader>
@@ -119,7 +128,7 @@ export const Card = ({
         )}
       </CardHeader>
 
-      <CardTitle>{title}</CardTitle>
+      <CardTitle> {shortTitle(title)}</CardTitle>
       <PriorityContainer>
         <PriorityLabel backgroundColor={priorityBackGroundColor(priority)}>
           {priority}
